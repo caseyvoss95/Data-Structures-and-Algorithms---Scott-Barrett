@@ -96,45 +96,45 @@ class LinkedList:
         return True  
 
     def remove(self, index):
-        if index < 0 or index > self.length - 1:
-            return False
-        elif index == 0:
+        if index < 0 or index >= self.length:
+            return None
+        if index == 0:
             return self.pop_first()
-        elif index == self.length - 1:
+        if index == self.length - 1:
             return self.pop()
-        else:
-            temp = self.get(index)
-            self.get(index - 1).next = temp.next
-            temp.next = None
-            self.length -= 1
-            return temp
+        pre = self.get(index - 1)
+        temp = pre.next
+        pre.next = temp.next
+        temp.next = None
+        self.length -= 1
+        return temp
 
-  
-
-
+    def reverse(self):
+        temp = self.head
+        self.head = self.tail
+        self.tail = temp
+        after = temp.next
+        before = None
+        for _ in range(self.length):
+            after = temp.next
+            temp.next = before
+            before = temp
+            temp = after
 
 my_linked_list = LinkedList(1)
 my_linked_list.append(2)
 my_linked_list.append(3)
 my_linked_list.append(4)
-my_linked_list.append(5)
 
-print('LL before remove():')
 my_linked_list.print_list()
 
-print('\nRemoved node:')
-print(my_linked_list.remove(2).value)
-print('LL after remove() in middle:')
+
+print('LL before reverse():')
 my_linked_list.print_list()
 
-print('\nRemoved node:')
-print(my_linked_list.remove(0).value)
-print('LL after remove() of first node:')
-my_linked_list.print_list()
+my_linked_list.reverse()
 
-print('\nRemoved node:')
-print(my_linked_list.remove(2).value)
-print('LL after remove() of last node:')
+print('\nLL after reverse():')
 my_linked_list.print_list()
 
 
@@ -142,33 +142,16 @@ my_linked_list.print_list()
 """
     EXPECTED OUTPUT:
     ----------------
-    LL before remove():
+    LL before reverse():
     1
     2
     3
     4
-    5
 
-    Removed node:
+    LL after reverse():
+    4
     3
-    LL after remove() in middle:
+    2
     1
-    2
-    4
-    5
-
-    Removed node:
-    1
-    LL after remove() of first node:
-    2
-    4
-    5
-
-    Removed node:
-    5
-    LL after remove() of last node:
-    2
-    4
-
+    
 """
-
